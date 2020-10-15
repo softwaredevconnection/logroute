@@ -84,3 +84,5 @@
 #   Default is path.data/dead_letter_queue
 #
 #   path.dead_letter_queue:
+    - pipeline.id: main
+    path.config: "/opt/logstash/pipeline"  

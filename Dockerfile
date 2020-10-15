@@ -1,7 +1,7 @@
 FROM ubuntu:bionic
 
 RUN apt-get update && \
-    apt-get install -y zlib1g-dev build-essential vim rake git curl libssl-dev libreadline-dev libyaml-dev  \
+    apt-get install -y groff zlib1g-dev build-essential vim rake git curl libssl-dev libreadline-dev libyaml-dev  \
       libxml2-dev libxslt-dev openjdk-11-jdk-headless curl iputils-ping netcat && \
     apt-get clean
 
@@ -61,3 +61,18 @@ USER logstash
 WORKDIR /opt/logstash
 
 LABEL retention="prune"
+RUN rake bootstrap
+RUN rake plugin:install-default
+USER root
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+USER logstash
+WORKDIR /opt/logstash
+RUN ./bin/logstash-plugin install logstash-output-amazon_es
+RUN rm -f /usr/share/logstash/pipeline/logstash.conf
+
+ADD pipeline/ /opt/logstash/pipeline
+ADD config/ /opt/logstash/config
+USER logstash
+WORKDIR /opt/logstash
