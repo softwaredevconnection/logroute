@@ -76,4 +76,3 @@ ADD pipeline/ /opt/logstash/pipeline
 ADD config/ /opt/logstash/config
 USER logstash
 WORKDIR /opt/logstash
-RUN echo "hi"
