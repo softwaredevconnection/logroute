@@ -1,7 +1,7 @@
 FROM ubuntu:bionic
 
 RUN apt-get update && \
-    apt-get install -y groff zlib1g-dev build-essential vim rake git curl libssl-dev libreadline-dev libyaml-dev  \
+    apt-get install -y groff zlib1g-dev build-essential vim rake git jq curl libssl-dev libreadline-dev libyaml-dev  \
       libxml2-dev libxslt-dev openjdk-11-jdk-headless curl iputils-ping netcat && \
     apt-get clean
 
@@ -76,3 +76,4 @@ ADD pipeline/ /opt/logstash/pipeline
 ADD config/ /opt/logstash/config
 USER logstash
 WORKDIR /opt/logstash
+RUN echo "hi"
